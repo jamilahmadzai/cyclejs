@@ -41,7 +41,7 @@ Standard event names are typed through `WindowEventMap`, so `events('resize')`, 
 ```typescript
 const keydown$ = sources.Window.events('keydown', {
   useCapture: true,
-  preventDefault: event => event.key === 'Escape',
+  preventDefault: {key: 'Escape'},
 });
 
 const scroll$ = sources.Window.events('scroll', {
@@ -49,7 +49,7 @@ const scroll$ = sources.Window.events('scroll', {
 });
 ```
 
-`preventDefault` accepts a boolean, predicate function, or partial object matcher. It cannot be combined with `passive: true`, because browsers do not allow passive listeners to cancel events.
+`preventDefault` accepts a boolean, predicate function, or partial object matcher. The keydown example uses an object matcher because predicate callbacks receive the base `Event` type, not the event-name-specific stream type. It cannot be combined with `passive: true`, because browsers do not allow passive listeners to cancel events.
 
 Listeners are installed lazily when a stream receives its first subscription and removed when its last subscription is disposed.
 
